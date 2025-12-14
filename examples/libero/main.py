@@ -62,6 +62,11 @@ def eval_libero(args: Args) -> None:
 
     # Setup directory structure
     data_dir = pathlib.Path(args.dataset_local_dir).resolve()
+    
+    # Remove data directory if it exists to start fresh
+    if data_dir.exists():
+        shutil.rmtree(data_dir)
+        logging.info(f"Removed existing data directory: {data_dir}")
     datasets_dir = data_dir / "datasets"
     videos_dir = data_dir / "videos"
     
