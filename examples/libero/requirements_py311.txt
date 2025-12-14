@@ -1,0 +1,16 @@
+# Updated requirements for Python 3.11+
+# Uses newer versions of numba/llvmlite that are compatible
+
+imageio[ffmpeg]>=2.35.1
+numpy>=1.22.4,<2.0.0
+tqdm
+tyro
+PyYaml
+opencv-python>=4.6.0
+torch>=2.0.0
+torchvision>=0.15.0
+robosuite>=1.4.1
+matplotlib>=3.5.3
+numba>=0.57.0  # Compatible with Python 3.11
+llvmlite>=0.40.0  # Compatible with Python 3.11
+
