@@ -262,7 +262,7 @@ With only 20 episodes, you may experience:
 
 ```bash
 # 1. Set environment variable (must be done in every terminal session)
-export HF_LEROBOT_HOME=/home/ubuntu/home-jwei/soar/examples/libero/data/datasets
+export HF_LEROBOT_HOME=/home/ubuntu/home-phd/soar/examples/libero/data/datasets
 
 # 2. Compute normalization stats (only once)
 uv run scripts/compute_norm_stats.py --config-name pi05_libero_local
@@ -290,3 +290,14 @@ python examples/libero/main.py \
 - [ ] Export HF_LEROBOT_HOME environment variable
 - [ ] Compute normalization statistics
 - [ ] Execute fine-tuning with JAX
+
+
+HF_LEROBOT_HOME=/home/ubuntu/home-phd/soar/examples/libero/data/datasets \
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 \
+uv run scripts/train.py pi05_libero_success \
+    --exp-name=my_libero_finetune \
+    --overwrite
+
+python scripts/serve_policy.py policy:checkpoint \
+  --policy.config pi05_libero_success_lora \
+  --policy.dir checkpoints/pi05_libero_success_lora/my_libero_finetune/9
