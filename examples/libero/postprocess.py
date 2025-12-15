@@ -14,10 +14,10 @@ def main():
     print("Starting postprocessing...")
     
     # Paths
-    base_dir = pathlib.Path(__file__).parent
-    rollouts_log_path = base_dir / "data" / "rollouts_log.json"
-    dataset_dir = base_dir / "data" / "datasets" / "libero_rollouts"
-    output_dir = base_dir / "data" / "datasets" / "libero_rollouts_success"
+    base_dir = pathlib.Path(__file__).parent / "data"
+    rollouts_log_path = base_dir / "rollouts_log.json"
+    dataset_dir = base_dir / "datasets" / "libero_rollouts"
+    output_dir = base_dir / "datasets" / "libero_rollouts_success"
     
     # Load the rollouts log
     with open(rollouts_log_path, 'r') as f:
@@ -61,12 +61,12 @@ def main():
     # Load the original dataset
     original_dataset = LeRobotDataset(str(dataset_dir))
     
-    # Create output directory
+    # Remove output directory if it exists
     if output_dir.exists():
         shutil.rmtree(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=False)
     
     # Create new dataset with only successful episodes
+    # LeRobot expects repo_id to be used with a default root or local path
     new_dataset = LeRobotDataset.create(
         repo_id=str(output_dir),
         robot_type=original_dataset.meta.robot_type,
