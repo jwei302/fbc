@@ -216,6 +216,8 @@ def main(config: _config.TrainConfig):
         resume=config.resume,
     )
     init_wandb(config, resuming=resuming, enabled=config.wandb_enabled)
+    # Tell wandb to use our explicit step parameter for all metrics
+    wandb.define_metric("*", step_metric="train_step")
 
     data_loader = _data_loader.create_data_loader(
         config,
@@ -231,7 +233,7 @@ def main(config: _config.TrainConfig):
         wandb.Image(np.concatenate([np.array(img[i]) for img in batch[0].images.values()], axis=1))
         for i in range(min(5, len(next(iter(batch[0].images.values())))))
     ]
-    wandb.log({"camera_views": images_to_log}, step=0)
+    wandb.log({"camera_views": images_to_log, "train_step": 0}, step=0)
 
     train_state, train_state_sharding = init_train_state(config, init_rng, mesh, resume=resuming)
     jax.block_until_ready(train_state)
@@ -265,7 +267,7 @@ def main(config: _config.TrainConfig):
             reduced_info = jax.device_get(jax.tree.map(jnp.mean, stacked_infos))
             info_str = ", ".join(f"{k}={v:.4f}" for k, v in reduced_info.items())
             pbar.write(f"Step {step}: {info_str}")
-            wandb.log(reduced_info, step=step)
+            wandb.log({**reduced_info, "train_step": int(step)}, step=int(step))
             infos = []
         batch = next(data_iter)
 
