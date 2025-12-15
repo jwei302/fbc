@@ -23,7 +23,7 @@ class Args:
     """Arguments for postprocessing LIBERO rollouts and filtering successful episodes."""
 
     rollouts_log: str = "examples/libero/data/rollouts_log.json" # path to the rollouts log file
-    input_dataset: str = "examples/libero/data/datasets/libero_rollouts" # path to the input dataset
+    input_dataset: str = "examples/libero/data/datasets/test" # path to the input dataset
     output_dataset: str = "examples/libero/data/datasets/libero_rollouts_success" # path to the output dataset
 
 

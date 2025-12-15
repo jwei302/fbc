@@ -45,7 +45,7 @@ class Args:
     # LeRobot dataset parameters
     #################################################################################################################
     dataset_repo_id: str = "libero_rollouts"  # Name of the LeRobot dataset
-    dataset_local_dir: str = "examples/libero/data"  # Local directory to save the dataset
+    dataset_local_dir: str = "/home/ubuntu/home-jwei/soar/libero/data"  # Local directory to save the dataset
 
     seed: int = 7  # Random Seed (for reproducibility)
 
