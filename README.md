@@ -12,25 +12,47 @@ Vision-Language-Action (VLA) policies often require task- and domain-specific fi
 
 ## Setup
 
-To install the relevant requirements, first install [uv](https://docs.astral.sh/uv/), to manage Python dependencies. See the [uv installation instructions](https://docs.astral.sh/uv/getting-started/installation/). 
+**Dependencies**
 
-Once installed, first set up a virtual environment. 
+To install the relevant requirements, first install [uv](https://docs.astral.sh/uv/), to manage Python dependencies. See the [uv installation instructions](https://docs.astral.sh/uv/getting-started/installation/). We used Python 3.10.12.
+
+Once installed, first set up a virtual environment:
 
 ```bash
 uv venv
 source venv/bin/activate
 ```
 
-Then, install the requirements. 
+Clone the submodules:
+```bash
+git submodule update --init --recursive
+```
+
+Then, install the requirements:
 ```bash
 uv pip install -r requirements.txt
 ```
 
-**Environment**
+**Install LIBERO Package**
+
+The editable install doesn't work properly with `uv`, so use a `.pth` file workaround similar to below:
+
+```bash
+# Create path file to add LIBERO to Python path
+echo "/path/to/fbc/third_party/libero" > .venv/lib/python3.11/site-packages/libero_path.pth
+```
+
+Or use the absolute path:
+```bash
+echo "/lambda/nfs/home-phd/fbc/third_party/libero" > .venv/lib/python3.11/site-packages/libero_path.pth
+```
+
+**Training Environment**
 
 We used a Ubuntu 22.04 linux system to run our code and a NVIDIA GPU H100 to train our model.
 
 ## Relevant Files Modified
+
 The repository is forked over from the [openpi](https://github.com/Physical-Intelligence/openpi) repository. We made the following additions
 
 - [examples/libero/main.py](examples/libero/main.py) - Added the ability to save the rollouts metadata. Previously, only the outcome video was saved. We now save the `LeRobotDataset` metadata so the data can be reconstructed into a new dataset, which we later filter by success for fine-tuning. We also added the ability to output a log file that shows the results of each task, how many iterations were run, whether each iteration was successful, and the metadata for each episode.
@@ -58,6 +80,7 @@ python examples/libero/main.py \
 A full list of configurable arguments can be found in [examples/libero/main.py](examples/libero/main.py).
 
 ## Postprocessing
+
 We postprocessed our data by filtering out the original dataset for success only trials during our baseline run. 
 
 Running success-only filtering
@@ -88,4 +111,4 @@ uv run scripts/train.py pi05_libero_success_lora \
 
 ## Model Checkpoint & Data
 
-Our fine-tuned model checkpoint, total rollouts, filtered successful rollouts, and metadata-json files can be found [here](here).
+Our fine-tuned model checkpoint, total rollouts, filtered successful rollouts, and metadata-json files can be found [here]().
