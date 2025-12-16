@@ -1,14 +1,14 @@
 # FBC: Filtered Behavior Cloning for Self-Training Vision–Language–Action Policies
 
 ## Author
-Phuc Duong, Jeffrey Wei
+Phuc Duong, Kunwoo Min, Jeffrey Wei
 
 CPSC 5800: Introduction to Computer Vision
 
 Yale University, Department of Computer Science
 
 ## Overview
-[TBD]
+Vision--Language--Action (VLA) policies often require task- and domain-specific fine-tuning to achieve strong manipulation performance, yet many pipelines lack a simple mechanism for continual improvement from deployment-time interaction. We propose \textbf{Filtered Behavior Cloning} (FBC), a lightweight self-training recipe that executes a pretrained policy, filters its rollouts to retain only successful episodes, and fine-tunes on these self-generated demonstrations using parameter-efficient LoRA updates. Using the Pi0.5-LIBERO checkpoint and evaluating on LIBERO-90, FBC yields measurable gains in overall success rate and improves performance on a majority of non-trivial tasks under a constrained rollout budget. Our results suggest that success-filtered self-training is a practical and scalable primitive for refining large VLA policies, motivating future work that increases self refinement and adds safeguards to prevent over-specialization under repeated self-training.
 
 ## Requirements
 
