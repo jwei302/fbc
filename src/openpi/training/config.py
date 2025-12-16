@@ -795,7 +795,7 @@ _CONFIGS = [
                 asset_id="physical-intelligence/libero",
             ),
         ),
-        batch_size=32,
+        batch_size=16,
         lr_schedule=_optimizer.CosineDecaySchedule(
             warmup_steps=2_000,
             peak_lr=5e-5,
@@ -810,7 +810,7 @@ _CONFIGS = [
         ).get_freeze_filter(),
         ema_decay=None,
         num_train_steps=10_000,
-        log_interval=10,
+        log_interval=100,
     ),
     #
     # Fine-tuning Aloha configs.
