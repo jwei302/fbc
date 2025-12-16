@@ -8,10 +8,27 @@ CPSC 5800: Introduction to Computer Vision
 Yale University, Department of Computer Science
 
 ## Overview
-Vision--Language--Action (VLA) policies often require task- and domain-specific fine-tuning to achieve strong manipulation performance, yet many pipelines lack a simple mechanism for continual improvement from deployment-time interaction. We propose \textbf{Filtered Behavior Cloning} (FBC), a lightweight self-training recipe that executes a pretrained policy, filters its rollouts to retain only successful episodes, and fine-tunes on these self-generated demonstrations using parameter-efficient LoRA updates. Using the Pi0.5-LIBERO checkpoint and evaluating on LIBERO-90, FBC yields measurable gains in overall success rate and improves performance on a majority of non-trivial tasks under a constrained rollout budget. Our results suggest that success-filtered self-training is a practical and scalable primitive for refining large VLA policies, motivating future work that increases self refinement and adds safeguards to prevent over-specialization under repeated self-training.
+Vision-Language-Action (VLA) policies often require task- and domain-specific fine-tuning to achieve strong manipulation performance, yet many pipelines lack a simple mechanism for continual improvement from deployment-time interaction. We propose **Filtered Behavior Cloning** (FBC), a lightweight self-training recipe that executes a pretrained policy, filters its rollouts to retain only successful episodes, and fine-tunes on these self-generated demonstrations using parameter-efficient LoRA updates. Using the Pi0.5-LIBERO checkpoint and evaluating on LIBERO-90, FBC yields measurable gains in overall success rate and improves performance on a majority of non-trivial tasks under a constrained rollout budget. Our results suggest that success-filtered self-training is a practical and scalable primitive for refining large VLA policies, motivating future work that increases self refinement and adds safeguards to prevent over-specialization under repeated self-training.
 
-## Requirements
+## Setup
 
+To install the relevant requirements, first install [uv](https://docs.astral.sh/uv/), to manage Python dependencies. See the [uv installation instructions](https://docs.astral.sh/uv/getting-started/installation/). 
+
+Once installed, first set up a virtual environment. 
+
+```bash
+uv venv
+source venv/bin/activate
+```
+
+Then, install the requirements. 
+```bash
+uv pip install -r requirements.txt
+```
+
+**Environment**
+
+We used a Ubuntu 22.04 linux system to run our code and a NVIDIA GPU H100 to train our model.
 
 ## Relevant Files Modified
 The repository is forked over from the [openpi](https://github.com/Physical-Intelligence/openpi) repository. We made the following additions
@@ -30,7 +47,7 @@ To run the baseline evaluation on the pre-trained `pi05_libero` use the follow t
 python scripts/serve_policy.py --env LIBERO
 ```
 
-2. Run the evaluation on a specific task suite (e.g,. libero_spatial, libero_10, libero_90)
+2. Run the evaluation on a specific task suite (e.g,. libero_spatial, libero_10, libero_90). For our project, we used libero_90, and ran 10 trials per task. 
 
 ```bash
 python examples/libero/main.py \
@@ -69,10 +86,6 @@ uv run scripts/train.py pi05_libero_success_lora \
 - `XLA_PYTHON_CLIENT_MEM_FRACTION` specifies how much GPU memory the program is allowed to use.
 
 
-## Model Checkpoint
+## Model Checkpoint & Data
 
-Our fine-tuned model checkpoint can be found [here](here).
-
-
-
-
+Our fine-tuned model checkpoint, total rollouts, filtered successful rollouts, and metadata-json files can be found [here](here).
